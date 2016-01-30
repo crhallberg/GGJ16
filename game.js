@@ -8,12 +8,10 @@ var tileSpeed = tileSize + tileGap;
 
 function baseObject(op) {
   var obj = {
-    x: op.x,
-    y: op.y,
-    targetX: op.x,
-    targetY: op.y,
-    speedX: op.speedX,
-    speedY: op.speedY,
+    x: 0,
+    y: 0,
+    speedX: 0,
+    speedY: 0,
     move: function () {
       if (this.x == this.targetX && this.y == this.targetY) {
         return;
@@ -29,6 +27,12 @@ function baseObject(op) {
   for (var i in op) {
     obj[i] = op[i];
   }
+  obj.x *= tileSpeed;
+  obj.y *= tileSpeed;
+  obj.speedX *= tileSpeed;
+  obj.speedY *= tileSpeed;
+  obj.targetX = obj.x;
+  obj.targetY = obj.y;
   return obj;
 }
 
@@ -46,16 +50,19 @@ function setup() {
 function setupLevel() {
   board = levels[currentLevel];
   orb = baseObject({
-    x: (board.startX - 1) * tileSpeed,
-    y: (board.startY - 1) * tileSpeed,
+    x: board.startX,
+    y: board.startY,
     speedX: 0,
-    speedY: tileSpeed
+    speedY: 1
   });
   exit = {
-    x: board.goalX - 1,
-    y: board.goalY - 1
+    x: board.goalX * tileSpeed,
+    y: board.goalY * tileSpeed,
   };
-  things = board.things.slice().map(baseObject);
+  things = [];
+  for (var i = 0; i < board.things.length; i++) {
+    things.push(baseObject(board.things[i]));
+  }
   setTimeout(function () {
     setInterval(beatstep, 500);
   }, 100);
@@ -75,6 +82,17 @@ function draw() {
   // BEAT
   fill('white');
   rect(beat * tileSpeed, (board.height - 1) * tileSpeed, tileSize, tileSize);
+  // THINGS
+  for (var i = 0; i < things.length; i++) {
+    // REPLACE WITH IMAGE NAME
+    if (things[i].type == "stone") {
+      fill('#543');
+      rect(things[i].x, things[i].y, tileSize, tileSize);
+    }
+  }
+  // EXIT
+  fill('black');
+  ellipse(exit.x, exit.y, tileSize - 1, tileSize - 1);
   // ORB
   fill('yellow');
   orb.move();
@@ -91,6 +109,10 @@ function draw() {
     triangle(halfTile, 0, -halfTile, -halfTile, -halfTile, halfTile);
     pop();
   }
+  if (mouseIsPressed) {
+    addParticle({x:mouseX, y:mouseY})
+  }
+  drawParticles();
 }
 
 
@@ -101,6 +123,9 @@ function beatstep() {
     beat = 0;
   } else {
     return;
+  }
+  if (orb.x == exit.x && orb.y == exit.y) {
+    alert("WIN");
   }
   // Spells
   for (var i = 0; i < spells.length; i++) {
@@ -120,16 +145,26 @@ function beatstep() {
 }
 
 var mouseDownX = 0,
-  mouseDownY = 0;
+  mouseDownY = 0,
+  mouseDownTileX = 0,
+  mouseDownTileY = 0;
 
 function mousePressed() {
   mouseDownX = mouseX;
   mouseDownY = mouseY;
+  mouseDownTileX = floor(mouseDownX / tileSpeed) * tileSpeed
+  mouseDownTileY = floor(mouseDownY / tileSpeed) * tileSpeed
 }
 
 function mouseReleased() {
   if (mouseDownX > board.width * tileSpeed || mouseDownY > board.height * tileSpeed) {
     return;
+  }
+  for (var i=0; i<things.length; i++) {
+    if (things[i].type == "stone"
+        && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+      return;
+    }
   }
   spells.push(spellDirection());
   console.log(spells);
@@ -148,8 +183,8 @@ function spellDirection() {
     dirY = diffY > 0 ? 1 : -1;
   }
   return {
-    x: floor(mouseDownX / tileSpeed) * tileSpeed,
-    y: floor(mouseDownY / tileSpeed) * tileSpeed,
+    x: mouseDownTileX,
+    y: mouseDownTileY,
     dirX: dirX,
     dirY: dirY
   }

@@ -6,7 +6,23 @@
     "startX": 3,
     "startY": 1,
     "goalX": 1,
-    "goalY": 5,
-    "things": []
+    "goalY": 7,
+    "things": [
+      {
+        "type": "stone",
+        "x": 3,
+        "y": 7
+      },
+      {
+        "type": "stone",
+        "x": 3,
+        "y": 3
+      },
+      {
+        "type": "stone",
+        "x": 1,
+        "y": 3
+      }
+    ]
   }
 ]
