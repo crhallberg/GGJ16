@@ -7,6 +7,7 @@ var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
 var img_tile, img_fire, img_ice, img_exit, img_death;
+var imgs_orb = [];
 
 function baseObject(op) {
   var obj = {
@@ -45,13 +46,15 @@ function preload() {
   img_fire = loadImage('./assets/art/FIRE.png');
   img_ice = loadImage('./assets/art/WATER.png');
   img_tile = loadImage('./assets/art/STONE.png');
+  imgs_orb.push(loadImage('./assets/art/BALL_BOTTOM.png'));
+  imgs_orb.push(loadImage('./assets/art/BALL_MED.png'));
+  imgs_orb.push(loadImage('./assets/art/BALL_TOP.png'));
 }
 
 
 function setup() {
   createCanvas(800, 600);
   noLoop();
-  ellipseMode(CORNER);
   load('./levels.json').then(function (json) {
     levels = json.slice();
     setupLevel();
@@ -69,7 +72,7 @@ function setupLevel() {
     x: board.startX,
     y: board.startY,
     speedX: 0,
-    speedY: 1,
+    speedY: 0,
     dead: false,
     fire: false
   });
@@ -127,12 +130,22 @@ function draw() {
   image(img_exit, exit.x, exit.y, tileSize, tileSize);
   // ORB
   if (!orb.dead) {
-    fill('yellow');
+    orb.move();
+    push();
+    translate(orb.x+halfTile, orb.y+halfTile);
+    imageMode(CENTER);
     if (orb.fire) {
       fill('red');
+      ellipse(0, 0, tileSize, tileSize);
     }
-    orb.move();
-    ellipse(orb.x, orb.y, tileSize - 1, tileSize - 1);
+    var theta = frameCount/60;
+    for (var i = 0; i < imgs_orb.length; i++) {
+      rotate(theta);
+      theta *= -2;
+      image(imgs_orb[i], 0, 0, tileSize, tileSize);
+    }
+    pop();
+    imageMode(CORNER);
   }
   // Spells
   fill('green')
