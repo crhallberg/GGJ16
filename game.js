@@ -37,6 +37,11 @@ function baseObject(op) {
   return obj;
 }
 
+function preload() {
+  loadAllSound();
+}
+
+
 function setup() {
   createCanvas(800, 600);
   noLoop();
@@ -48,6 +53,7 @@ function setup() {
   });
   tempo = new Tempo();
   tempo.onBeat(beatstep);
+  loopBackgroundMusic("drumchant");
 }
 
 function setupLevel() {
