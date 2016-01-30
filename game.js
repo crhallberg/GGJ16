@@ -52,6 +52,7 @@ function setup() {
 
 function setupLevel() {
   board = levels[currentLevel];
+  spells = [];
   orb = baseObject({
     x: board.startX,
     y: board.startY,
