@@ -3,9 +3,11 @@
  *
  * this.setTempo(bpm) - set the tempo with a number of BPM
  *
- * this.start (delay) - will start the beat after a delay in milliseconds
+ * this.start (delay) - will start the beat after a delay in number of beats
  *
  * this.resync() - restart the beat and beat count
+ *
+ * this.pause(beats) - stop looping for x beats
  *
  * this.stop() - stop the press!
  */
@@ -14,11 +16,16 @@ function Tempo() {
   this.loop = false;
   this.beat = -1;
   this.measure = 4;
-  this.beatEvent = false
+  this.beatEvent = false;
+  this.skip = 0;
 
   // Return beat (in index 1)
   this.getBeat = function() {
     return this.beat + 1;
+  }
+  // Pause for x beats
+  this.pause = function(beats) {
+    this.skip = beats-1;
   }
   // Set BPM tempo
   this.setTempo = function(bpm) {
@@ -30,6 +37,10 @@ function Tempo() {
       clearInterval(this.loop);
     }
     this.loop = setInterval((function() {
+      if (this.skip > 0) {
+        this.skip --;
+        return;
+      }
       this.beat = (this.beat + 1) % this.measure;
       this.beatEvent(this.beat + 1);
     }).bind(this), this.tempo);
@@ -44,15 +55,13 @@ function Tempo() {
   };
   // Let's do this!
   this.start = function(delay) {
+    this.stop();
     if ('undefined' == typeof delay) {
-      delay = 0;
+      delay = 1;
     }
-    var that = this;
     this.beat = -1;
-    setTimeout((function() {
-      this.beat = -1;
-      this.beginLoop();
-    }).bind(this), delay);
+    this.skip = delay-1;
+    this.beginLoop();
   }
   // ...nevermind!
   this.stop = function() {

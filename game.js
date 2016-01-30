@@ -69,7 +69,7 @@ function setupLevel() {
     things.push(baseObject(board.things[i]));
   }
   tempo.setTempo(71);
-  tempo.start(1200);
+  tempo.start(4);
 }
 
 function draw() {
@@ -133,6 +133,7 @@ function draw() {
         burst(100, 'black');
         burst(20, 'yellow');
         orb.dead = true;
+        tempo.pause(3);
       }
     }
   }
@@ -149,7 +150,8 @@ function draw() {
 
 function beatstep(beat) {
   if (orb.dead) {
-    return setupLevel();
+    setupLevel();
+    return;
   }
   if (orb.x == exit.x && orb.y == exit.y) {
     currentLevel++;
@@ -162,8 +164,9 @@ function beatstep(beat) {
         burst(100, 'red');
         burst(100, 'black');
         burst(20, 'yellow');
-        orb.x = -100;
-        orb.targetX = -100;
+        orb.dead = true;
+        tempo.pause(3);
+        return;
       }
     }
   }
