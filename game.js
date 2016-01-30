@@ -57,7 +57,8 @@ function setupLevel() {
     x: board.startX,
     y: board.startY,
     speedX: 0,
-    speedY: 1
+    speedY: 1,
+    dead: false
   });
   exit = {
     x: board.goalX * tileSpeed,
@@ -93,7 +94,7 @@ function draw() {
       fill('navy');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
-      case "block":
+    case "block":
       fill('#432');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
@@ -107,9 +108,11 @@ function draw() {
   fill('black');
   ellipse(exit.x, exit.y, tileSize - 1, tileSize - 1);
   // ORB
-  fill('yellow');
-  orb.move();
-  ellipse(orb.x, orb.y, tileSize - 1, tileSize - 1);
+  if (!orb.dead) {
+    fill('yellow');
+    orb.move();
+    ellipse(orb.x, orb.y, tileSize - 1, tileSize - 1);
+  }
   // Spells
   fill('green')
   for (var i = 0; i < spells.length; i++) {
@@ -124,15 +127,12 @@ function draw() {
   }
 
   // Things on beat in real time
-  fill('#639');
-  ellipse(orb.x+halfTile, orb.y+halfTile, 2, 2)
   for (var i = 0; i < things.length; i++) {
-    if (insideRect(orb.x+halfTile, orb.y+halfTile, things[i].x, things[i].y, tileSize, tileSize)) {
+    if (insideRect(orb.x + halfTile, orb.y + halfTile, things[i].x, things[i].y, tileSize, tileSize)) {
       if ('block' == things[i].type) {
         burst(100, 'black');
         burst(20, 'yellow');
-        orb.x = -100;
-        orb.targetX = -100;
+        orb.dead = true;
       }
     }
   }
@@ -148,8 +148,11 @@ function draw() {
 
 
 function beatstep(beat) {
+  if (orb.dead) {
+    return setupLevel();
+  }
   if (orb.x == exit.x && orb.y == exit.y) {
-    currentLevel ++;
+    currentLevel++;
     setupLevel();
   }
   // Things on beat before spells
@@ -174,8 +177,7 @@ function beatstep(beat) {
     }
   }
   // Things on beat before spells
-  for (var i = 0; i < things.length; i++) {
-  }
+  for (var i = 0; i < things.length; i++) {}
   if (beat % 2 > 0) {
     return;
   }
@@ -210,7 +212,15 @@ function mouseReleased() {
       return;
     }
   }
+  for (var i = 0; i < spells.length; i++) {
+    if (mouseDownTileX == spells[i].x && mouseDownTileY == spells[i].y) {
+      spells[i] = spellDirection();
+      burst(20, 'green', spells[i].x + halfTile, spells[i].y + halfTile);
+      return;
+    }
+  }
   spells.push(spellDirection());
+  burst(20, 'green', spells[i].x + halfTile, spells[i].y + halfTile);
 }
 
 function spellDirection() {
@@ -234,5 +244,5 @@ function spellDirection() {
 }
 
 function insideRect(x, y, rx, ry, rw, rh) {
-  return x > rx && x < rx+rw && y > ry && y < ry+rh;
+  return x > rx && x < rx + rw && y > ry && y < ry + rh;
 }

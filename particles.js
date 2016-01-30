@@ -41,14 +41,14 @@ function trimParticles() {
     return this.life != 0;
   })
 }
-function burst(number, color) {
+function burst(number, color, x, y) {
   for (var i = 0; i < number; i++) {
     var a = random(0, TWO_PI);
     var s = random(0, 5);
     addParticle({
       color: color,
-      x: orb.x + halfTile,
-      y: orb.y + halfTile,
+      x: x || orb.x + halfTile,
+      y: y || orb.y + halfTile,
       speedX: cos(a) * s,
       speedY: sin(a) * s,
       life: random(45, 100)
