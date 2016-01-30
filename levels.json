@@ -1,6 +1,6 @@
 [
   {
-    "name": "Beginner's Luck",
+    "name": "0 Beginner's Luck",
     "width": 8,
     "height": 8,
     "startX": 2,
@@ -10,7 +10,7 @@
     "things": []
   },
   {
-    "name": "Death Intro",
+    "name": "1 Death Intro",
     "width": 5,
     "height": 5,
     "startX": 2,
@@ -26,7 +26,7 @@
     ]
   },
   {
-    "name": "No Spell Intro",
+    "name": "2 No Spell Intro",
     "width": 7,
     "height": 7,
     "startX": 1,
@@ -52,7 +52,7 @@
     ]
   },
   {
-    "name": "No Spell More",
+    "name": "3 No Spell More",
     "width": 6,
     "height": 6,
     "startX": 1,
@@ -98,7 +98,7 @@
     ]
   },
   {
-    "name": "Beginner's Luck",
+    "name": "4 Beginner's Luck",
     "width": 7,
     "height": 8,
     "startX": 2,
@@ -117,7 +117,7 @@
         "y": 3
       },
       {
-        "type": "block",
+        "type": "death",
         "x": 5,
         "y": 2
       },
@@ -129,33 +129,129 @@
     ]
   },
   {
-    "name": "Beginner's Luck",
-    "width": 7,
-    "height": 8,
-    "startX": 2,
+    "name": "5 death Maze",
+    "width": 6,
+    "height": 7,
+    "startX": 1,
     "startY": 1,
-    "goalX": 5,
+    "goalX": 1,
     "goalY": 5,
     "things": [
       {
-        "type": "gem",
-        "x": 2,
-        "y": 5
+        "type": "death",
+        "x": 3,
+        "y": 1
       },
       {
-        "type": "gem",
+        "type": "death",
+        "x": 4,
+        "y": 1
+      },
+      {
+        "type": "death",
         "x": 5,
-        "y": 3
+        "y": 1
       },
       {
-        "type": "block",
+        "type": "death",
         "x": 5,
         "y": 2
       },
       {
         "type": "death",
+        "x": 5,
+        "y": 3
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 4
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 5
+      },
+      {
+        "type": "death",
+        "x": 0,
+        "y": 3
+      },
+      {
+        "type": "death",
+        "x": 1,
+        "y": 3
+      },
+      {
+        "type": "death",
         "x": 2,
-        "y": 7
+        "y": 3
+      },
+      {
+        "type": "death",
+        "x": 3,
+        "y": 3
+      }
+    ]
+  },
+  {
+    "name": "6 fire intro",
+    "width": 9,
+    "height": 5,
+    "startX": 1,
+    "startY": 1,
+    "goalX": 7,
+    "goalY": 2,
+    "things": [
+      {
+        "type": "fire",
+        "x": 3,
+        "y": 0
+      },
+      {
+        "type": "fire",
+        "x": 3,
+        "y": 1
+      },
+      {
+        "type": "fire",
+        "x": 3,
+        "y": 2
+      },
+      {
+        "type": "fire",
+        "x": 3,
+        "y": 3
+      },
+      {
+        "type": "fire",
+        "x": 3,
+        "y": 4
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 0
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 1
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 2
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 3
+      },
+      {
+        "type": "death",
+        "x": 5,
+        "y": 4
       }
     ]
   }

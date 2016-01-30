@@ -1,4 +1,4 @@
-var levels, board, currentLevel = 0;
+var levels, board, currentLevel = 6;
 var orb, things, exit;
 var spells = [];
 var tileSize = 60;
@@ -51,14 +51,15 @@ function setup() {
 }
 
 function setupLevel() {
-  board = levels[currentLevel];
+  board = levels[currentLevel] || levels[0];
   spells = [];
   orb = baseObject({
     x: board.startX,
     y: board.startY,
     speedX: 0,
     speedY: 1,
-    dead: false
+    dead: false,
+    fire: false
   });
   exit = {
     x: board.goalX * tileSpeed,
@@ -72,8 +73,13 @@ function setupLevel() {
   tempo.start(4);
 }
 
+function die() {
+  orb.dead = true;
+  tempo.pause(3);
+}
+
 function draw() {
-  background('brown');
+  background('#9f7764');
   if (!board) return;
   // Draw grid
   noStroke();
@@ -94,12 +100,12 @@ function draw() {
       fill('navy');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
-    case "block":
-      fill('#432');
+    case "fire":
+      fill('orange');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "death":
-      fill('red');
+      fill('#510');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
     }
@@ -110,6 +116,9 @@ function draw() {
   // ORB
   if (!orb.dead) {
     fill('yellow');
+    if (orb.fire) {
+      fill('red');
+    }
     orb.move();
     ellipse(orb.x, orb.y, tileSize - 1, tileSize - 1);
   }
@@ -132,10 +141,14 @@ function draw() {
       if ('block' == things[i].type) {
         burst(100, 'black');
         burst(20, 'yellow');
-        orb.dead = true;
-        tempo.pause(3);
+        die();
       }
     }
+  }
+  if (!orb.dead && !insideRect(orb.x + halfTile, orb.y + halfTile, 0, 0, tileSpeed * board.width, tileSpeed * board.height)) {
+    burst(100, 'brown');
+    burst(100, 'yellow');
+    die();
   }
 
   if (mouseIsPressed) {
@@ -163,10 +176,14 @@ function beatstep(beat) {
       if ('death' == things[i].type) {
         burst(100, 'red');
         burst(100, 'black');
-        burst(20, 'yellow');
-        orb.dead = true;
-        tempo.pause(3);
-        return;
+        if (orb.fire) {
+          orb.fire = false;
+          things[i].delete = true;
+        } else {
+          burst(20, 'yellow');
+          die();
+          return;
+        }
       }
     }
   }
@@ -179,8 +196,25 @@ function beatstep(beat) {
       burst(100, 'green');
     }
   }
-  // Things on beat before spells
-  for (var i = 0; i < things.length; i++) {}
+  // Things on beat after spells
+  for (var i = 0; i < things.length; i++) {
+    if (things[i].skip) {
+      things[i].skip = false;
+      continue;
+    }
+    if (orb.x == things[i].x && orb.y == things[i].y) {
+      if (!orb.fire && 'fire' == things[i].type) {
+        burst(100, 'orange');
+        burst(100, 'red');
+        orb.fire = true;
+        things[i].skip = true;
+      }
+    }
+  }
+  things = things.filter(function (op) {
+    return !op.delete;
+  });
+
   if (beat % 2 > 0) {
     return;
   }
