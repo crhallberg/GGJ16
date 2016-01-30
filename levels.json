@@ -3,25 +3,25 @@
     "name": "Beginner's Luck",
     "width": 7,
     "height": 8,
-    "startX": 3,
+    "startX": 2,
     "startY": 1,
-    "goalX": 1,
-    "goalY": 7,
+    "goalX": 5,
+    "goalY": 5,
     "things": [
       {
         "type": "stone",
-        "x": 3,
+        "x": 2,
+        "y": 5
+      },
+      {
+        "type": "stone",
+        "x": 5,
+        "y": 3
+      },
+      {
+        "type": "death",
+        "x": 2,
         "y": 7
-      },
-      {
-        "type": "stone",
-        "x": 3,
-        "y": 3
-      },
-      {
-        "type": "stone",
-        "x": 1,
-        "y": 3
       }
     ]
   }

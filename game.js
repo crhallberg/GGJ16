@@ -66,8 +66,8 @@ function setupLevel() {
   for (var i = 0; i < board.things.length; i++) {
     things.push(baseObject(board.things[i]));
   }
-  tempo.setTempo(71);
-  tempo.start(1000);
+  tempo.setTempo(171);
+  tempo.start(200);
 }
 
 function draw() {
@@ -87,9 +87,15 @@ function draw() {
   // THINGS
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
-    if (things[i].type == "stone") {
+    switch (things[i].type) {
+    case "stone":
       fill('#543');
       rect(things[i].x, things[i].y, tileSize, tileSize);
+      break;
+    case "death":
+      fill('red');
+      rect(things[i].x, things[i].y, tileSize, tileSize);
+      break;
     }
   }
   // EXIT
@@ -112,18 +118,30 @@ function draw() {
     pop();
   }
   if (mouseIsPressed) {
-    addParticle({x:mouseX, y:mouseY})
+    addParticle({
+      x: mouseX,
+      y: mouseY
+    })
   }
   drawParticles();
 }
 
 
 function beatstep(beat) {
-  if (beat > 1) {
-    return;
-  }
   if (orb.x == exit.x && orb.y == exit.y) {
     alert("WIN");
+  }
+  // Things
+  for (var i = 0; i < things.length; i++) {
+    if (orb.x == things[i].x && orb.y == things[i].y) {
+      if ('death' == things[i].type) {
+        burst(100, 'red');
+        burst(100, 'black');
+        burst(20, 'yellow');
+        orb.x = -100;
+        orb.targetX = -100;
+      }
+    }
   }
   // Spells
   for (var i = 0; i < spells.length; i++) {
@@ -131,7 +149,11 @@ function beatstep(beat) {
       orb.speedX = spells[i].dirX * tileSpeed;
       orb.speedY = spells[i].dirY * tileSpeed;
       spells.splice(i, 1);
+      burst(100, 'green');
     }
+  }
+  if (beat % 2 > 0) {
+    return;
   }
   orb.targetX += orb.speedX;
   orb.targetY += orb.speedY;
@@ -140,6 +162,7 @@ function beatstep(beat) {
     things[i].x += things[i].speedX;
     things[i].y += things[i].speedY;
   }
+  trimParticles();
 }
 
 var mouseDownX = 0,
@@ -158,14 +181,12 @@ function mouseReleased() {
   if (mouseDownX > board.width * tileSpeed || mouseDownY > board.height * tileSpeed) {
     return;
   }
-  for (var i=0; i<things.length; i++) {
-    if (things[i].type == "stone"
-        && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+  for (var i = 0; i < things.length; i++) {
+    if (things[i].type == "stone" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
   }
   spells.push(spellDirection());
-  console.log(spells);
 }
 
 function spellDirection() {
