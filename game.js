@@ -66,8 +66,8 @@ function setupLevel() {
   for (var i = 0; i < board.things.length; i++) {
     things.push(baseObject(board.things[i]));
   }
-  tempo.setTempo(171);
-  tempo.start(200);
+  tempo.setTempo(71);
+  tempo.start(1200);
 }
 
 function draw() {
@@ -88,8 +88,12 @@ function draw() {
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
     switch (things[i].type) {
-    case "stone":
-      fill('#543');
+    case "gem":
+      fill('navy');
+      rect(things[i].x, things[i].y, tileSize, tileSize);
+      break;
+      case "block":
+      fill('#432');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "death":
@@ -117,6 +121,21 @@ function draw() {
     triangle(halfTile, 0, -halfTile, -halfTile, -halfTile, halfTile);
     pop();
   }
+
+  // Things on beat in real time
+  fill('#639');
+  ellipse(orb.x+halfTile, orb.y+halfTile, 2, 2)
+  for (var i = 0; i < things.length; i++) {
+    if (insideRect(orb.x+halfTile, orb.y+halfTile, things[i].x, things[i].y, tileSize, tileSize)) {
+      if ('block' == things[i].type) {
+        burst(100, 'black');
+        burst(20, 'yellow');
+        orb.x = -100;
+        orb.targetX = -100;
+      }
+    }
+  }
+
   if (mouseIsPressed) {
     addParticle({
       x: mouseX,
@@ -129,9 +148,10 @@ function draw() {
 
 function beatstep(beat) {
   if (orb.x == exit.x && orb.y == exit.y) {
-    alert("WIN");
+    currentLevel ++;
+    setupLevel();
   }
-  // Things
+  // Things on beat before spells
   for (var i = 0; i < things.length; i++) {
     if (orb.x == things[i].x && orb.y == things[i].y) {
       if ('death' == things[i].type) {
@@ -151,6 +171,9 @@ function beatstep(beat) {
       spells.splice(i, 1);
       burst(100, 'green');
     }
+  }
+  // Things on beat before spells
+  for (var i = 0; i < things.length; i++) {
   }
   if (beat % 2 > 0) {
     return;
@@ -182,7 +205,7 @@ function mouseReleased() {
     return;
   }
   for (var i = 0; i < things.length; i++) {
-    if (things[i].type == "stone" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+    if (things[i].type == "gem" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
   }
@@ -207,4 +230,8 @@ function spellDirection() {
     dirX: dirX,
     dirY: dirY
   }
+}
+
+function insideRect(x, y, rx, ry, rw, rh) {
+  return x > rx && x < rx+rw && y > ry && y < ry+rh;
 }
