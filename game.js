@@ -1,11 +1,12 @@
-var levels, board, currentLevel = 6;
+var levels, board, currentLevel = 0;
 var orb, things, exit;
 var spells = [];
-var tileSize = 60;
-var tileGap = 10;
+var tileSize = 75;
+var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
+var img_tile, img_fire, img_ice, img_exit, img_death;
 
 function baseObject(op) {
   var obj = {
@@ -39,6 +40,11 @@ function baseObject(op) {
 
 function preload() {
   loadAllSound();
+  img_death = loadImage('./assets/art/DANGER.png');
+  img_exit = loadImage('./assets/art/EXIT.png');
+  img_fire = loadImage('./assets/art/FIRE.png');
+  img_ice = loadImage('./assets/art/WATER.png');
+  img_tile = loadImage('./assets/art/STONE.png');
 }
 
 
@@ -57,7 +63,7 @@ function setup() {
 }
 
 function setupLevel() {
-  board = levels[currentLevel] || levels[0];
+  board = levels[currentLevel];
   spells = [];
   orb = baseObject({
     x: board.startX,
@@ -92,7 +98,7 @@ function draw() {
   fill('grey');
   for (var x = 0; x < board.width; x++) {
     for (var y = 0; y < board.height; y++) {
-      rect(x * tileSpeed, y * tileSpeed, tileSize, tileSize);
+      image(img_tile, x * tileSpeed, y * tileSpeed, tileSize, tileSize);
     }
   }
   // BEAT
@@ -107,18 +113,18 @@ function draw() {
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "fire":
-      fill('orange');
-      rect(things[i].x, things[i].y, tileSize, tileSize);
+      image(img_fire, things[i].x, things[i].y, tileSize, tileSize);
+      break;
+    case "ice":
+      image(img_ice, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "death":
-      fill('#510');
-      rect(things[i].x, things[i].y, tileSize, tileSize);
+      image(img_death, things[i].x, things[i].y, tileSize, tileSize);
       break;
     }
   }
   // EXIT
-  fill('black');
-  ellipse(exit.x, exit.y, tileSize - 1, tileSize - 1);
+  image(img_exit, exit.x, exit.y, tileSize, tileSize);
   // ORB
   if (!orb.dead) {
     fill('yellow');

@@ -1,2 +1,8 @@
-body { background: #9f7764; }
-canvas { margin: 0; }
+body {
+  margin: 0;
+  padding: 0;
+  background: #9f7764;
+}
+canvas {
+  margin: 0 auto;
+}
