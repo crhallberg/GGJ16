@@ -5,6 +5,7 @@ var tileSize = 60;
 var tileGap = 10;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
+var tempo;
 
 function baseObject(op) {
   var obj = {
@@ -45,6 +46,8 @@ function setup() {
     setupLevel();
     loop();
   });
+  tempo = new Tempo();
+  tempo.onBeat(beatstep);
 }
 
 function setupLevel() {
@@ -63,9 +66,8 @@ function setupLevel() {
   for (var i = 0; i < board.things.length; i++) {
     things.push(baseObject(board.things[i]));
   }
-  setTimeout(function () {
-    setInterval(beatstep, 500);
-  }, 100);
+  tempo.setTempo(71);
+  tempo.start(1000);
 }
 
 function draw() {
@@ -81,7 +83,7 @@ function draw() {
   }
   // BEAT
   fill('white');
-  rect(beat * tileSpeed, (board.height - 1) * tileSpeed, tileSize, tileSize);
+  rect(tempo.getBeat() * tileSpeed, 0, tileSize, tileSize);
   // THINGS
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
@@ -116,12 +118,8 @@ function draw() {
 }
 
 
-var beat = 0;
-
-function beatstep() {
-  if (beat++ == 3) {
-    beat = 0;
-  } else {
+function beatstep(beat) {
+  if (beat > 1) {
     return;
   }
   if (orb.x == exit.x && orb.y == exit.y) {
