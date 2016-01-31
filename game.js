@@ -319,14 +319,16 @@ function beatstep(beat) {
             burst(20, 'red', px, py);
             burst(50, 'lime', px, py);
             burst(50, 'black', px, py);
+            things[i].delete = true;
           } else if ('ice_prop' == things[j].type) {
             burst(50, 'gray', px, py);
             burst(50, 'white', px, py);
             burst(50, 'lightblue', px, py);
+            things[i].delete = true;
           } else if ('void' == things[j].type) {
             burst(50, 'gray', px, py);
+            things[i].delete = true;
           }
-          things[i].delete = true;
         }
       }
     }
