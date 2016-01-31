@@ -6,7 +6,7 @@ var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
-var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void, img_ice_shot;
+var img_arrow, img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void, img_ice_shot;
 var imgs_orb = [];
 
 function baseObject(op, absolute) {
@@ -47,6 +47,7 @@ function baseObject(op, absolute) {
 
 function preload() {
   loadAllSound();
+  img_arrow = loadImage('./assets/art/ARROW.png');
   img_death = loadImage('./assets/art/DANGER.png');
   img_enemy = loadImage('./assets/art/ENEMY.png');
   img_exit = loadImage('./assets/art/EXIT.png');
@@ -65,7 +66,7 @@ function preload() {
 function setup() {
   createCanvas(1000, 1000);
   noLoop();
-  load('./testlevels-alex.json').then(function (json) {
+  load('./levels.json').then(function (json) {
     levels = json.slice();
     setupLevel();
     loop();
@@ -157,7 +158,7 @@ function draw() {
       imageMode(CENTER);
       translate(things[i].x + halfTile, things[i].y + halfTile);
       rotate(theta);
-      image(img_enemy, 0, 0, tileSize, tileSize);
+      image(img_enemy, 0, 0, tileSize-15, tileSize-15);
       imageMode(CORNER);
       pop();
       break;
@@ -179,21 +180,22 @@ function draw() {
     for (var i = 0; i < imgs_orb.length; i++) {
       rotate(theta);
       theta *= -1.5;
-      image(imgs_orb[i], 0, 0, tileSize + 25, tileSize + 25);
+      image(imgs_orb[i], 0, 0, tileSize + 5, tileSize + 5);
     }
     pop();
     imageMode(CORNER);
   }
   // Spells
-  fill('green')
   for (var i = 0; i < spells.length; i++) {
     var dx = spells[i].dirX;
     var dy = spells[i].dirY;
     var theta = HALF_PI * (abs(dx * (dx - 1)) + dy);
     push();
+    imageMode(CENTER);
     translate(spells[i].x + halfTile, spells[i].y + halfTile);
     rotate(theta);
-    triangle(halfTile, 0, -halfTile, -halfTile, -halfTile, halfTile);
+    image(img_arrow, 0, 0, tileSize, tileSize);
+    imageMode(CORNER);
     pop();
   }
 
@@ -222,7 +224,6 @@ function draw() {
   }
   drawParticles();
 }
-
 
 function beatstep(beat) {
   if (orb.dead) {
@@ -339,7 +340,7 @@ function beatstep(beat) {
       orb.speedX = spells[i].dirX * tileSpeed;
       orb.speedY = spells[i].dirY * tileSpeed;
       spells.splice(i, 1);
-      burst(100, 'green');
+      burst(100, 'lime');
     }
   }
   things = things.filter(function (op) {
@@ -390,7 +391,7 @@ function mouseReleased() {
     }
   }
   spells.push(spellDirection());
-  burst(20, 'green', spells[i].x + halfTile, spells[i].y + halfTile);
+  burst(20, 'lime', spells[i].x + halfTile, spells[i].y + halfTile);
 }
 
 function spellDirection() {
