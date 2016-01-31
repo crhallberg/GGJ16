@@ -355,7 +355,9 @@ function mouseReleased() {
     return;
   }
   for (var i = 0; i < things.length; i++) {
-    if (things[i].type == "void" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+    if (
+      ("void" == things[i].type && "ice" == things[i].type)
+      && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
   }
