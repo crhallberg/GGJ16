@@ -15,7 +15,7 @@ function baseObject(op, absolute) {
     y: 0,
     speedX: 0,
     speedY: 0,
-    move: function() {
+    move: function () {
       this.targetX += this.speedX;
       this.targetY += this.speedY;
     },
@@ -48,7 +48,7 @@ function baseObject(op, absolute) {
 function preload() {
   loadAllSound();
   img_death = loadImage('./assets/art/DANGER.png');
-  img_enemy= loadImage('./assets/art/ENEMY.png');
+  img_enemy = loadImage('./assets/art/ENEMY.png');
   img_exit = loadImage('./assets/art/EXIT.png');
   img_fire = loadImage('./assets/art/FIRE.png');
   img_ice = loadImage('./assets/art/WATER.png');
@@ -140,7 +140,19 @@ function draw() {
       image(img_death, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "enemy":
-      image(img_enemy, things[i].x, things[i].y, tileSize, tileSize);
+      var dx = things[i].speedX / tileSpeed;
+      var dy = things[i].speedY / tileSpeed;
+      var theta = HALF_PI * (abs(dx * (dx - 1)) + dy);
+      if (dx + dy == 0) {
+        theta = HALF_PI;
+      }
+      push();
+      imageMode(CENTER);
+      translate(things[i].x + halfTile, things[i].y + halfTile);
+      rotate(theta);
+      image(img_enemy, 0, 0, tileSize, tileSize);
+      imageMode(CORNER);
+      pop();
       break;
     }
   }
@@ -264,16 +276,25 @@ function beatstep(beat) {
       }
     } else if ('enemy' == things[i].type) {
       if (orb.x == things[i].x) {
-        var diff = orb.y-things[i].y;
+        var diff = orb.y - things[i].y;
         diff /= abs(diff);
-        println(orb.y, things[i].y, orb.y-things[i].y, diff);
+        println(orb.y, things[i].y, orb.y - things[i].y, diff);
         things[i].speedX = 0;
         things[i].speedY = diff * tileSpeed;
       } else if (orb.y == things[i].y) {
-        var diff = orb.x-things[i].x;
+        var diff = orb.x - things[i].x;
         diff /= abs(diff);
-        println(orb.x, things[i].x, orb.x-things[i].x, diff);
+        println(orb.x, things[i].x, orb.x - things[i].x, diff);
         things[i].speedX = diff * tileSpeed;
+        things[i].speedY = 0;
+      }
+      if (
+        (things[i].x == 0 && things[i].speedX < 0)
+        || (things[i].y == 0 && things[i].speedY < 0)
+        || (things[i].speedX > 0 && things[i].x == board.width * tileSpeed)
+        || (things[i].speedY > 0 && things[i].y == board.height * tileSpeed)
+      ) {
+        things[i].speedX = 0;
         things[i].speedY = 0;
       }
     }
@@ -290,11 +311,11 @@ function beatstep(beat) {
   things = things.filter(function (op) {
     return !op.delete;
   });
-/*
-  if (beat % 2 > 0) {
-    return;
-  }
-  //*/
+  /*
+    if (beat % 2 > 0) {
+      return;
+    }
+    //*/
   orb.move();
   // Move things
   for (var i = 0; i < things.length; i++) {
