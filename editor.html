@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      String.prototype.replaceAt = function(index, character) {
+        return this.substr(0, index) + character + this.substr(index+character.length);
+      }
+      function parse() {
+        var text = document.getElementById('level').value.toUpperCase();
+        var rows = text.split('\n');
+        rows = rows.filter(function(op) {
+          return !!op && op.match(/\S/);
+        })
+        var board = {
+          width: rows[0].length,
+          height: rows.length,
+          things: []
+        };
+        for (var y=0; y<rows.length; y++) {
+          var x = rows[y].indexOf('S');
+          if (x > -1) {
+            board.startX = x;
+            board.startY = y;
+          }
+          x = rows[y].indexOf('E');
+          if (x > -1) {
+            board.goalX = x;
+            board.goalY = y;
+          }
+          // fire
+          do {
+            x = rows[y].indexOf('F');
+            if (x > -1) {
+              board.things.push({
+                type: "fire",
+                x: x,
+                y: y
+              });
+              rows[y] = rows[y].replaceAt(x, '.');
+            }
+          } while(x > -1);
+          // ice
+          do {
+            x = rows[y].indexOf('W');
+            if (x > -1) {
+              board.things.push({
+                type: "ice",
+                x: x,
+                y: y
+              });
+              rows[y] = rows[y].replaceAt(x, '.');
+            }
+          } while(x > -1);
+          // enemy
+          do {
+            x = rows[y].indexOf('B');
+            if (x > -1) {
+              board.things.push({
+                type: "enemy",
+                x: x,
+                y: y
+              });
+              rows[y] = rows[y].replaceAt(x, '.');
+            }
+          } while(x > -1);
+          // death
+          do {
+            x = rows[y].indexOf('X');
+            if (x > -1) {
+              board.things.push({
+                type: "death",
+                x: x,
+                y: y
+              });
+              rows[y] = rows[y].replaceAt(x, '.');
+            }
+          } while(x > -1);
+          // void
+          do {
+            x = rows[y].indexOf('V');
+            if (x > -1) {
+              board.things.push({
+                type: "void",
+                x: x,
+                y: y
+              });
+              rows[y] = rows[y].replaceAt(x, '.');
+            }
+          } while(x > -1);
+        }
+        console.log(JSON.stringify(board, null, '  '));
+      }
+    </script>
+    <style>
+      textarea {
+        width: 100%;
+        padding: .5em;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea rows="10" id="level">
+.....
+.S...
+.....
+...E.
+XFWBV
+    </textarea>
+    <button onclick="parse()">PARSE</button>
+    <div>---------------
+    <div><b>'S'</b> = Start
+    <div><b>'E'</b> = End
+    <div><b>'F'</b> = Fire
+    <div><b>'W'</b> = Water
+    <div><b>'B'</b> = Bug
+    <div><b>'X'</b> = Death
+    <div><b>'V'</b> = Void
+    <div>---------------
+  </body>
+</html>

@@ -6,7 +6,7 @@ var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
-var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy;
+var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void;
 var imgs_orb = [];
 
 function baseObject(op, absolute) {
@@ -15,7 +15,7 @@ function baseObject(op, absolute) {
     y: 0,
     speedX: 0,
     speedY: 0,
-    move: function() {
+    move: function () {
       this.targetX += this.speedX;
       this.targetY += this.speedY;
     },
@@ -48,11 +48,12 @@ function baseObject(op, absolute) {
 function preload() {
   loadAllSound();
   img_death = loadImage('./assets/art/DANGER.png');
-  img_enemy= loadImage('./assets/art/ENEMY.png');
+  img_enemy = loadImage('./assets/art/ENEMY.png');
   img_exit = loadImage('./assets/art/EXIT.png');
   img_fire = loadImage('./assets/art/FIRE.png');
   img_ice = loadImage('./assets/art/WATER.png');
   img_tile = loadImage('./assets/art/STONE.png');
+  img_void = loadImage('./assets/art/NOSPELL.png');
   imgs_orb.push(loadImage('./assets/art/BALL_BOTTOM.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_MED.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_SPARK_1.png'));
@@ -123,9 +124,8 @@ function draw() {
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
     switch (things[i].type) {
-    case "gem":
-      fill('navy');
-      rect(things[i].x, things[i].y, tileSize, tileSize);
+    case "void":
+      image(img_void, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "fire":
       image(img_fire, things[i].x, things[i].y, tileSize, tileSize);
@@ -140,7 +140,19 @@ function draw() {
       image(img_death, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "enemy":
-      image(img_enemy, things[i].x, things[i].y, tileSize, tileSize);
+      var dx = things[i].speedX / tileSpeed;
+      var dy = things[i].speedY / tileSpeed;
+      var theta = HALF_PI * (abs(dx * (dx - 1)) + dy);
+      if (dx + dy == 0) {
+        theta = HALF_PI;
+      }
+      push();
+      imageMode(CENTER);
+      translate(things[i].x + halfTile, things[i].y + halfTile);
+      rotate(theta);
+      image(img_enemy, 0, 0, tileSize, tileSize);
+      imageMode(CORNER);
+      pop();
       break;
     }
   }
@@ -264,17 +276,39 @@ function beatstep(beat) {
       }
     } else if ('enemy' == things[i].type) {
       if (orb.x == things[i].x) {
-        var diff = orb.y-things[i].y;
+        var diff = orb.y - things[i].y;
         diff /= abs(diff);
-        println(orb.y, things[i].y, orb.y-things[i].y, diff);
         things[i].speedX = 0;
         things[i].speedY = diff * tileSpeed;
       } else if (orb.y == things[i].y) {
-        var diff = orb.x-things[i].x;
+        var diff = orb.x - things[i].x;
         diff /= abs(diff);
-        println(orb.x, things[i].x, orb.x-things[i].x, diff);
         things[i].speedX = diff * tileSpeed;
         things[i].speedY = 0;
+      }
+      if (
+        (things[i].x == 0 && things[i].speedX < 0)
+        || (things[i].y == 0 && things[i].speedY < 0)
+        || (things[i].speedX > 0 && things[i].x == board.width * tileSpeed)
+        || (things[i].speedY > 0 && things[i].y == board.height * tileSpeed)
+      ) {
+        things[i].speedX = 0;
+        things[i].speedY = 0;
+      }
+      for (var j = 0; j < things.length; j++) {
+        if (i == j) continue;
+        if (things[i].x == things[j].x && things[i].y == things[j].y) {
+          if ('fire' == things[j].type) {
+            burst(50, 'gray', things[i].x, things[i].y);
+            burst(20, 'red', things[i].x, things[i].y);
+            burst(50, 'lime', things[i].x, things[i].y);
+            burst(50, 'black', things[i].x, things[i].y);
+            things[i].delete = true;
+          } else if ('void' == things[j].type) {
+            burst(50, 'gray', things[i].x, things[i].y);
+            things[i].delete = true;
+          }
+        }
       }
     }
   }
@@ -290,11 +324,11 @@ function beatstep(beat) {
   things = things.filter(function (op) {
     return !op.delete;
   });
-/*
-  if (beat % 2 > 0) {
-    return;
-  }
-  //*/
+  /*
+    if (beat % 2 > 0) {
+      return;
+    }
+    //*/
   orb.move();
   // Move things
   for (var i = 0; i < things.length; i++) {
@@ -321,7 +355,9 @@ function mouseReleased() {
     return;
   }
   for (var i = 0; i < things.length; i++) {
-    if (things[i].type == "gem" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+    if (
+      ("void" == things[i].type || ice" == things[i].type)
+      && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
   }

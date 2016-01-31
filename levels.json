@@ -71,12 +71,12 @@
     "goalY": 4,
     "things": [
       {
-        "type": "gem",
+        "type": "void",
         "x": 1,
         "y": 4
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 4,
         "y": 1
       },
@@ -97,32 +97,32 @@
     "goalY": 4,
     "things": [
       {
-        "type": "gem",
+        "type": "void",
         "x": 1,
         "y": 4
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 2,
         "y": 4
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 3,
         "y": 4
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 4,
         "y": 1
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 4,
         "y": 2
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 4,
         "y": 3
       },
@@ -148,12 +148,12 @@
     "goalY": 5,
     "things": [
       {
-        "type": "gem",
+        "type": "void",
         "x": 2,
         "y": 5
       },
       {
-        "type": "gem",
+        "type": "void",
         "x": 5,
         "y": 3
       },
