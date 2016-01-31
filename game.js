@@ -96,8 +96,10 @@ function setupLevel() {
   for (var i = 0; i < board.things.length; i++) {
     things.push(baseObject(board.things[i]));
   }
-  tempo.setTempo(71);
+  tempo.setTempo(72);
   tempo.start(4);
+
+  stopSound("bugwalk");
 
   resizeCanvas(board.width * tileSpeed, windowHeight);
 }
@@ -292,7 +294,6 @@ function beatstep(beat) {
       }
     } else if ('enemy' == things[i].type)
     {
-      if (things[i].speedX+things[i].speedY != 0) playSound("bugwalk");
       if (orb.x == things[i].x) {
         var diff = orb.y - things[i].y;
         diff /= abs(diff);
@@ -307,12 +308,16 @@ function beatstep(beat) {
       if (
         (things[i].x == 0 && things[i].speedX < 0)
         || (things[i].y == 0 && things[i].speedY < 0)
-        || (things[i].speedX > 0 && things[i].x == board.width * tileSpeed)
-        || (things[i].speedY > 0 && things[i].y == board.height * tileSpeed)
+        || (things[i].speedX > 0 && things[i].x == (board.width-1) * tileSpeed)
+        || (things[i].speedY > 0 && things[i].y == (board.height-1) * tileSpeed)
       ) {
         things[i].speedX = 0;
         things[i].speedY = 0;
       }
+      // Sounds
+      if (things[i].speedX+things[i].speedY != 0) playSound("bugwalk");
+      else stopSound("bugwalk");
+      // Death check
       for (var j = 0; j < things.length; j++) {
         if (i == j) continue;
         if (things[i].x == things[j].x && things[i].y == things[j].y) {
@@ -330,8 +335,8 @@ function beatstep(beat) {
             burst(50, 'lightblue', px, py);
             things[i].delete = true;
           } else if ('void' == things[j].type) {
-          	playSound("bugkill");
-          	stopSound("bugwalk");
+            playSound("bugkill");
+            stopSound("bugwalk");
             burst(50, 'gray', px, py);
             things[i].delete = true;
           }
