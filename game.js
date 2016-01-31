@@ -60,7 +60,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(windowWidth, windowHeight);
   noLoop();
   load('./levels.json').then(function (json) {
     levels = json.slice();
@@ -74,6 +74,7 @@ function setup() {
 
 function setupLevel() {
   board = levels[currentLevel];
+
   spells = [];
   orb = baseObject({
     x: board.startX,
@@ -93,6 +94,8 @@ function setupLevel() {
   }
   tempo.setTempo(71);
   tempo.start(4);
+
+  resizeCanvas(board.width * tileSpeed, windowHeight);
 }
 
 function die() {
@@ -251,9 +254,9 @@ function beatstep(beat) {
           console.log(things[i].y, things[j].y);
         }
         if ('death' == things[j].type && things[i].x == things[j].x && things[i].y == things[j].y) {
-          burst(100, 'red', things[i].x, things[i].y);
-          burst(100, 'blue', things[i].x, things[i].y);
-          burst(100, 'black', things[i].x, things[i].y);
+          burst(100, 'red', things[i].x + halfTile, things[i].y + halfTile);
+          burst(100, 'blue', things[i].x + halfTile, things[i].y + halfTile);
+          burst(100, 'black', things[i].x + halfTile, things[i].y + halfTile);
           things[i].delete = true;
           things[j].delete = true;
         }
