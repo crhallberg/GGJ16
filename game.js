@@ -6,7 +6,7 @@ var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
-var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void;
+var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void, img_ice_shot;
 var imgs_orb = [];
 
 function baseObject(op, absolute) {
@@ -51,7 +51,8 @@ function preload() {
   img_enemy = loadImage('./assets/art/ENEMY.png');
   img_exit = loadImage('./assets/art/EXIT.png');
   img_fire = loadImage('./assets/art/FIRE.png');
-  img_ice = loadImage('./assets/art/WATER.png');
+  img_ice = loadImage('./assets/art/ICE.png');
+  img_ice_shot = loadImage('./assets/art/ICE_PROJ.png');
   img_tile = loadImage('./assets/art/STONE.png');
   img_void = loadImage('./assets/art/NOSPELL.png');
   imgs_orb.push(loadImage('./assets/art/BALL_BOTTOM.png'));
@@ -134,7 +135,13 @@ function draw() {
       image(img_ice, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "ice_burst":
-      image(img_ice, things[i].x + 20, things[i].y + 20, tileSize - 40, tileSize - 40);
+      push();
+      imageMode(CENTER);
+      translate(things[i].x + halfTile, things[i].y + halfTile);
+      rotate(frameCount / 20);
+      image(img_ice_shot, 0, 0, tileSize-20, tileSize-10);
+      pop();
+      imageMode(CORNER);
       break;
     case "death":
       image(img_death, things[i].x, things[i].y, tileSize, tileSize);
@@ -232,8 +239,10 @@ function beatstep(beat) {
       things[i].skip = false;
       continue;
     }
-    if (orb.x == things[i].x && orb.y == things[i].y) {
-      if ('death' == things[i].type || 'enemy' == things[i].type) {
+    if (orb.x == things[i].x && orb.y == things[i].y)
+    {
+      if ('death' == things[i].type || 'enemy' == things[i].type)
+      {
         burst(100, 'red');
         burst(100, 'black');
         if (orb.fire) {
@@ -264,17 +273,22 @@ function beatstep(beat) {
         orb.speedY *= -1;
         things[i].skip = true;
       }
-    } else if ('ice_burst' == things[i].type) {
+    } else if ('ice_burst' == things[i].type)
+    {
       for (var j = 0; j < i; j++) {
-        if ('death' == things[j].type && things[i].x == things[j].x && things[i].y == things[j].y) {
+        if (
+          ('death' == things[j].type || 'enemy' == things[j].type)
+          && things[i].x == things[j].x && things[i].y == things[j].y
+        ) {
           burst(100, 'red', things[i].x + halfTile, things[i].y + halfTile);
-          burst(100, 'blue', things[i].x + halfTile, things[i].y + halfTile);
+          burst(50, 'white', things[i].x + halfTile, things[i].y + halfTile);
           burst(100, 'black', things[i].x + halfTile, things[i].y + halfTile);
           things[i].delete = true;
           things[j].delete = true;
         }
       }
-    } else if ('enemy' == things[i].type) {
+    } else if ('enemy' == things[i].type)
+    {
       if (orb.x == things[i].x) {
         var diff = orb.y - things[i].y;
         diff /= abs(diff);
@@ -306,11 +320,16 @@ function beatstep(beat) {
             things[i].delete = true;
           } else if ('void' == things[j].type) {
             burst(50, 'gray', things[i].x, things[i].y);
+            burst(50, 'white', things[i].x, things[i].y);
+            burst(50, 'lightblue', things[i].x, things[i].y);
+            things[i].delete = true;
+          }
+          } else if ('void' == things[j].type) {
+            burst(50, 'gray', things[i].x, things[i].y);
             things[i].delete = true;
           }
         }
       }
-    }
   }
   // Spells
   for (var i = 0; i < spells.length; i++) {
@@ -356,7 +375,7 @@ function mouseReleased() {
   }
   for (var i = 0; i < things.length; i++) {
     if (
-      ("void" == things[i].type || ice" == things[i].type)
+      ("void" == things[i].type || "ice" == things[i].type)
       && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
