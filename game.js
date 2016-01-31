@@ -6,7 +6,7 @@ var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
-var img_tile, img_fire, img_ice, img_exit, img_death;
+var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy;
 var imgs_orb = [];
 
 function baseObject(op, absolute) {
@@ -48,6 +48,7 @@ function baseObject(op, absolute) {
 function preload() {
   loadAllSound();
   img_death = loadImage('./assets/art/DANGER.png');
+  img_enemy= loadImage('./assets/art/ENEMY.png');
   img_exit = loadImage('./assets/art/EXIT.png');
   img_fire = loadImage('./assets/art/FIRE.png');
   img_ice = loadImage('./assets/art/WATER.png');
@@ -138,6 +139,9 @@ function draw() {
     case "death":
       image(img_death, things[i].x, things[i].y, tileSize, tileSize);
       break;
+    case "enemy":
+      image(img_enemy, things[i].x, things[i].y, tileSize, tileSize);
+      break;
     }
   }
   // EXIT
@@ -217,7 +221,7 @@ function beatstep(beat) {
       continue;
     }
     if (orb.x == things[i].x && orb.y == things[i].y) {
-      if ('death' == things[i].type) {
+      if ('death' == things[i].type || 'enemy' == things[i].type) {
         burst(100, 'red');
         burst(100, 'black');
         if (orb.fire) {
@@ -250,10 +254,6 @@ function beatstep(beat) {
       }
     } else if ('ice_burst' == things[i].type) {
       for (var j = 0; j < i; j++) {
-        if ('death' == things[j].type) {
-          console.log(things[i].x, things[j].x);
-          console.log(things[i].y, things[j].y);
-        }
         if ('death' == things[j].type && things[i].x == things[j].x && things[i].y == things[j].y) {
           burst(100, 'red', things[i].x + halfTile, things[i].y + halfTile);
           burst(100, 'blue', things[i].x + halfTile, things[i].y + halfTile);
@@ -261,6 +261,20 @@ function beatstep(beat) {
           things[i].delete = true;
           things[j].delete = true;
         }
+      }
+    } else if ('enemy' == things[i].type) {
+      if (orb.x == things[i].x) {
+        var diff = orb.y-things[i].y;
+        diff /= abs(diff);
+        println(orb.y, things[i].y, orb.y-things[i].y, diff);
+        things[i].speedX = 0;
+        things[i].speedY = diff * tileSpeed;
+      } else if (orb.y == things[i].y) {
+        var diff = orb.x-things[i].x;
+        diff /= abs(diff);
+        println(orb.x, things[i].x, orb.x-things[i].x, diff);
+        things[i].speedX = diff * tileSpeed;
+        things[i].speedY = 0;
       }
     }
   }
