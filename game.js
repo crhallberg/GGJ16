@@ -65,7 +65,7 @@ function preload() {
 function setup() {
   createCanvas(1000, 1000);
   noLoop();
-  load('./levels.json').then(function (json) {
+  load('./testlevels-alex.json').then(function (json) {
     levels = json.slice();
     setupLevel();
     loop();
@@ -312,24 +312,24 @@ function beatstep(beat) {
       for (var j = 0; j < things.length; j++) {
         if (i == j) continue;
         if (things[i].x == things[j].x && things[i].y == things[j].y) {
+          var px = things[i].x + halfTile;
+          var py = things[i].y + halfTile;
           if ('fire' == things[j].type) {
-            burst(50, 'gray', things[i].x, things[i].y);
-            burst(20, 'red', things[i].x, things[i].y);
-            burst(50, 'lime', things[i].x, things[i].y);
-            burst(50, 'black', things[i].x, things[i].y);
-            things[i].delete = true;
+            burst(50, 'gray', px, py);
+            burst(20, 'red', px, py);
+            burst(50, 'lime', px, py);
+            burst(50, 'black', px, py);
+          } else if ('ice_prop' == things[j].type) {
+            burst(50, 'gray', px, py);
+            burst(50, 'white', px, py);
+            burst(50, 'lightblue', px, py);
           } else if ('void' == things[j].type) {
-            burst(50, 'gray', things[i].x, things[i].y);
-            burst(50, 'white', things[i].x, things[i].y);
-            burst(50, 'lightblue', things[i].x, things[i].y);
-            things[i].delete = true;
+            burst(50, 'gray', px, py);
           }
-          } else if ('void' == things[j].type) {
-            burst(50, 'gray', things[i].x, things[i].y);
-            things[i].delete = true;
-          }
+          things[i].delete = true;
         }
       }
+    }
   }
   // Spells
   for (var i = 0; i < spells.length; i++) {
