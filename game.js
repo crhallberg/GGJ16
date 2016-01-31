@@ -60,7 +60,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1000, 1000);
   noLoop();
   load('./levels.json').then(function (json) {
     levels = json.slice();
