@@ -1,41 +1,5 @@
 [
   {
-    "name": "-1 Kitchen Sink",
-    "width": 8,
-    "height": 8,
-    "startX": 2,
-    "startY": 1,
-    "goalX": 0,
-    "goalY": 0,
-    "things": [
-      {
-        "type": "ice",
-        "x": 4,
-        "y": 1
-      },
-      {
-        "type": "death",
-        "x": 6,
-        "y": 1
-      },
-      {
-        "type": "fire",
-        "x": 4,
-        "y": 3
-      },
-      {
-        "type": "death",
-        "x": 6,
-        "y": 3
-      },
-      {
-        "type": "enemy",
-        "x": 6,
-        "y": 5
-      }
-    ]
-  },
-  {
     "name": "0 Beginner's Luck",
     "width": 8,
     "height": 8,
@@ -295,5 +259,890 @@
         "y": 4
       }
     ]
-  }
+  },
+  {
+  "width": 7,
+  "height": 7,
+  "things": [
+    {
+      "type": "fire",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "type": "fire",
+      "x": 5,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 1
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "ice",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "type": "ice",
+      "x": 4,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "type": "fire",
+      "x": 1,
+      "y": 5
+    },
+    {
+      "type": "fire",
+      "x": 5,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 5
+    }
+  ],
+  "startX": 0,
+  "startY": 0,
+  "goalX": 3,
+  "goalY": 3
+},
+    {
+  "width": 11,
+  "height": 10,
+  "things": [
+    {
+      "type": "fire",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "fire",
+      "x": 10,
+      "y": 0
+    },
+    {
+      "type": "enemy",
+      "x": 5,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 9,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 8,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 3
+    },
+    {
+      "type": "fire",
+      "x": 4,
+      "y": 4
+    },
+    {
+      "type": "fire",
+      "x": 6,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 5
+    },
+    {
+      "type": "enemy",
+      "x": 9,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 7
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 7
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 8
+    },
+    {
+      "type": "death",
+      "x": 8,
+      "y": 8
+    },
+    {
+      "type": "enemy",
+      "x": 5,
+      "y": 9
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 9
+    },
+    {
+      "type": "death",
+      "x": 9,
+      "y": 9
+    }
+  ],
+  "goalX": 5,
+  "goalY": 5,
+  "startX": 0,
+  "startY": 6
+  },
+  {
+  "width": 13,
+  "height": 13,
+  "things": [
+    {
+      "type": "ice",
+      "x": 5,
+      "y": 0
+    },
+    {
+      "type": "ice",
+      "x": 7,
+      "y": 0
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 1
+    },
+    {
+      "type": "ice",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "type": "ice",
+      "x": 8,
+      "y": 2
+    },
+    {
+      "type": "ice",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 7,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 4
+    },
+    {
+      "type": "ice",
+      "x": 10,
+      "y": 4
+    },
+    {
+      "type": "ice",
+      "x": 0,
+      "y": 5
+    },
+    {
+      "type": "ice",
+      "x": 3,
+      "y": 5
+    },
+    {
+      "type": "ice",
+      "x": 9,
+      "y": 5
+    },
+    {
+      "type": "ice",
+      "x": 12,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 5
+    },
+    {
+      "type": "ice",
+      "x": 1,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 3,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 4,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 8,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 9,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 10,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 11,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 6
+    },
+    {
+      "type": "ice",
+      "x": 0,
+      "y": 7
+    },
+    {
+      "type": "ice",
+      "x": 3,
+      "y": 7
+    },
+    {
+      "type": "ice",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "type": "ice",
+      "x": 12,
+      "y": 7
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 7
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 7
+    },
+    {
+      "type": "death",
+      "x": 7,
+      "y": 7
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 8
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 8
+    },
+    {
+      "type": "ice",
+      "x": 10,
+      "y": 8
+    },
+    {
+      "type": "ice",
+      "x": 5,
+      "y": 9
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 9
+    },
+    {
+      "type": "ice",
+      "x": 7,
+      "y": 9
+    },
+    {
+      "type": "ice",
+      "x": 4,
+      "y": 10
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 10
+    },
+    {
+      "type": "ice",
+      "x": 8,
+      "y": 10
+    },
+    {
+      "type": "ice",
+      "x": 6,
+      "y": 11
+    },
+    {
+      "type": "ice",
+      "x": 5,
+      "y": 12
+    },
+    {
+      "type": "ice",
+      "x": 7,
+      "y": 12
+    }
+  ],
+  "goalX": 6,
+  "goalY": 6,
+  "startX": 10,
+  "startY": 7
+},
+{
+  "width": 6,
+  "height": 5,
+  "things": [
+    {
+      "type": "void",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "void",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "type": "void",
+      "x": 2,
+      "y": 0
+    },
+    {
+      "type": "void",
+      "x": 3,
+      "y": 0
+    },
+    {
+      "type": "void",
+      "x": 4,
+      "y": 0
+    },
+    {
+      "type": "void",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "type": "void",
+      "x": 4,
+      "y": 1
+    },
+    {
+      "type": "void",
+      "x": 0,
+      "y": 2
+    },
+    {
+      "type": "void",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "type": "enemy",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "void",
+      "x": 0,
+      "y": 3
+    },
+    {
+      "type": "void",
+      "x": 4,
+      "y": 3
+    },
+    {
+      "type": "void",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "type": "void",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "void",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "type": "void",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "type": "void",
+      "x": 4,
+      "y": 4
+    }
+  ],
+  "goalX": 3,
+  "goalY": 1,
+  "startX": 1,
+  "startY": 3
+},
+{
+  "width": 3,
+  "height": 10,
+  "things": [
+    {
+      "type": "death",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 2,
+      "y": 5
+    },
+    {
+      "type": "ice",
+      "x": 1,
+      "y": 7
+    },
+    {
+      "type": "ice",
+      "x": 1,
+      "y": 9
+    }
+  ],
+  "goalX": 2,
+  "goalY": 0,
+  "startX": 1,
+  "startY": 8
+},
+{
+  "width": 7,
+  "height": 6,
+  "things": [
+    {
+      "type": "death",
+      "x": 2,
+      "y": 0
+    },
+    {
+      "type": "fire",
+      "x": 2,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "type": "enemy",
+      "x": 3,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "type": "death",
+      "x": 4,
+      "y": 4
+    }
+  ],
+  "startX": 0,
+  "startY": 0,
+  "goalX": 4,
+  "goalY": 3
+},
+{
+  "width": 7,
+  "height": 7,
+  "things": [
+    {
+      "type": "death",
+      "x": 3,
+      "y": 0
+    },
+    {
+      "type": "ice",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "type": "fire",
+      "x": 3,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 0,
+      "y": 3
+    },
+    {
+      "type": "death",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "type": "ice",
+      "x": 3,
+      "y": 5
+    },
+    {
+      "type": "death",
+      "x": 3,
+      "y": 6
+    }
+  ],
+  "startX": 3,
+  "startY": 2,
+  "goalX": 4,
+  "goalY": 6
+}
 ]
