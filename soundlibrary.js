@@ -33,10 +33,11 @@ function playSound(soundName)
   	successSound.play();
 }
 
-function stopSound(soundname)
+function stopSound(soundName)
 {
-	if (soundName == "bugwalk" && bugwalkSound.isPlaying())
-		bugwalkSound.stop();
+  if (soundName == "bugwalk" && bugwalkSound.isPlaying())
+    println("bugwalk soundStop");
+    bugwalkSound.stop();
 }
 function loopBackgroundMusic(soundName)
 {
