@@ -73,7 +73,7 @@ function setup() {
   });
   tempo = new Tempo();
   tempo.onBeat(beatstep);
-  loopBackgroundMusic("drumchant");
+  loopBackgroundMusic("monkchant");
 }
 
 function setupLevel() {
@@ -96,7 +96,7 @@ function setupLevel() {
   for (var i = 0; i < board.things.length; i++) {
     things.push(baseObject(board.things[i]));
   }
-  tempo.setTempo(72);
+  tempo.setTempo(80);
   tempo.start(4);
 
   stopSound("bugwalk");

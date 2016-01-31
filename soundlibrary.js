@@ -1,3 +1,4 @@
+var monkchantSound;
 var drumchantSound;
 var bugkillSound;
 var bugwalkSound;
@@ -11,6 +12,10 @@ function loadAllSound()
   drumchantSound = loadSound('assets/audio/warfulllooped.wav');
   drumchantSound.setVolume(0.0);
   drumchantSound.addCue(0.01, onLoop, "drumchant");
+  
+  monkchantSound = loadSound('assets/audio/monklooped.wav');
+  deepdrumSound = loadSound('assets/audio/deepdrums.wav');
+  deepdrumSound.addCue(0.01, onLoop, "deepdrum");
   
   bugkillSound = loadSound('assets/audio/bugsplat.wav');
   bugwalkSound = loadSound('assets/audio/bugwalk.wav');
@@ -48,12 +53,18 @@ function stopSound(soundName)
 }
 function loopBackgroundMusic(soundName)
 {
+  println("background music");
   if (soundName === "drumchant" && !drumchantSound.isPlaying())
     drumchantSound.loop();
+  if (soundName == "monkchant" && !monkchantSound.isPlaying())
+  {
+    monkchantSound.loop();
+    deepdrumSound.loop();
+  }
 }
 
 function onLoop(soundname)
 {
-  if (soundname == "drumchant")
+  if (soundname == "deepdrum")
     tempo.resync();
 }
