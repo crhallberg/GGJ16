@@ -9,13 +9,17 @@ var tempo;
 var img_tile, img_fire, img_ice, img_exit, img_death;
 var imgs_orb = [];
 
-function baseObject(op) {
+function baseObject(op, absolute) {
   var obj = {
     x: 0,
     y: 0,
     speedX: 0,
     speedY: 0,
-    move: function () {
+    move: function() {
+      this.targetX += this.speedX;
+      this.targetY += this.speedY;
+    },
+    tween: function () {
       if (this.x == this.targetX && this.y == this.targetY) {
         return;
       }
@@ -30,10 +34,12 @@ function baseObject(op) {
   for (var i in op) {
     obj[i] = op[i];
   }
-  obj.x *= tileSpeed;
-  obj.y *= tileSpeed;
-  obj.speedX *= tileSpeed;
-  obj.speedY *= tileSpeed;
+  if (!absolute) {
+    obj.x *= tileSpeed;
+    obj.y *= tileSpeed;
+    obj.speedX *= tileSpeed;
+    obj.speedY *= tileSpeed;
+  }
   obj.targetX = obj.x;
   obj.targetY = obj.y;
   return obj;
@@ -48,9 +54,10 @@ function preload() {
   img_tile = loadImage('./assets/art/STONE.png');
   imgs_orb.push(loadImage('./assets/art/BALL_BOTTOM.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_MED.png'));
+  imgs_orb.push(loadImage('./assets/art/BALL_SPARK_1.png'));
+  imgs_orb.push(loadImage('./assets/art/BALL_SPARK_2.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_TOP.png'));
 }
-
 
 function setup() {
   createCanvas(800, 600);
@@ -121,6 +128,9 @@ function draw() {
     case "ice":
       image(img_ice, things[i].x, things[i].y, tileSize, tileSize);
       break;
+    case "ice_burst":
+      image(img_ice, things[i].x + 20, things[i].y + 20, tileSize - 40, tileSize - 40);
+      break;
     case "death":
       image(img_death, things[i].x, things[i].y, tileSize, tileSize);
       break;
@@ -130,19 +140,19 @@ function draw() {
   image(img_exit, exit.x, exit.y, tileSize, tileSize);
   // ORB
   if (!orb.dead) {
-    orb.move();
+    orb.tween();
     push();
-    translate(orb.x+halfTile, orb.y+halfTile);
+    translate(orb.x + halfTile, orb.y + halfTile);
     imageMode(CENTER);
     if (orb.fire) {
       fill('red');
       ellipse(0, 0, tileSize, tileSize);
     }
-    var theta = frameCount/60;
+    var theta = frameCount / 40;
     for (var i = 0; i < imgs_orb.length; i++) {
       rotate(theta);
-      theta *= -2;
-      image(imgs_orb[i], 0, 0, tileSize, tileSize);
+      theta *= -1.5;
+      image(imgs_orb[i], 0, 0, tileSize + 25, tileSize + 25);
     }
     pop();
     imageMode(CORNER);
@@ -162,6 +172,7 @@ function draw() {
 
   // Things on beat in real time
   for (var i = 0; i < things.length; i++) {
+    things[i].tween();
     if (insideRect(orb.x + halfTile, orb.y + halfTile, things[i].x, things[i].y, tileSize, tileSize)) {
       if ('block' == things[i].type) {
         burst(100, 'black');
@@ -197,6 +208,10 @@ function beatstep(beat) {
   }
   // Things on beat before spells
   for (var i = 0; i < things.length; i++) {
+    if (things[i].skip) {
+      things[i].skip = false;
+      continue;
+    }
     if (orb.x == things[i].x && orb.y == things[i].y) {
       if ('death' == things[i].type) {
         burst(100, 'red');
@@ -208,6 +223,39 @@ function beatstep(beat) {
           burst(20, 'yellow');
           die();
           return;
+        }
+      } else if (!orb.fire && 'fire' == things[i].type) {
+        burst(100, 'orange');
+        burst(100, 'red');
+        orb.fire = true;
+        things[i].skip = true;
+      } else if ('ice' == things[i].type) {
+        burst(100, 'blue');
+        burst(100, 'navy');
+        var ib = baseObject({
+          x: orb.x,
+          y: orb.y,
+          speedX: orb.speedX,
+          speedY: orb.speedY,
+          type: 'ice_burst'
+        }, true);
+        things.push(ib);
+        orb.speedX *= -1;
+        orb.speedY *= -1;
+        things[i].skip = true;
+      }
+    } else if ('ice_burst' == things[i].type) {
+      for (var j = 0; j < i; j++) {
+        if ('death' == things[j].type) {
+          console.log(things[i].x, things[j].x);
+          console.log(things[i].y, things[j].y);
+        }
+        if ('death' == things[j].type && things[i].x == things[j].x && things[i].y == things[j].y) {
+          burst(100, 'red', things[i].x, things[i].y);
+          burst(100, 'blue', things[i].x, things[i].y);
+          burst(100, 'black', things[i].x, things[i].y);
+          things[i].delete = true;
+          things[j].delete = true;
         }
       }
     }
@@ -221,21 +269,6 @@ function beatstep(beat) {
       burst(100, 'green');
     }
   }
-  // Things on beat after spells
-  for (var i = 0; i < things.length; i++) {
-    if (things[i].skip) {
-      things[i].skip = false;
-      continue;
-    }
-    if (orb.x == things[i].x && orb.y == things[i].y) {
-      if (!orb.fire && 'fire' == things[i].type) {
-        burst(100, 'orange');
-        burst(100, 'red');
-        orb.fire = true;
-        things[i].skip = true;
-      }
-    }
-  }
   things = things.filter(function (op) {
     return !op.delete;
   });
@@ -243,13 +276,12 @@ function beatstep(beat) {
   if (beat % 2 > 0) {
     return;
   }
-  orb.targetX += orb.speedX;
-  orb.targetY += orb.speedY;
+  orb.move();
   // Move things
   for (var i = 0; i < things.length; i++) {
-    things[i].x += things[i].speedX;
-    things[i].y += things[i].speedY;
+    things[i].move();
   }
+
   trimParticles();
 }
 
