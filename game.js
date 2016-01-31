@@ -292,6 +292,7 @@ function beatstep(beat) {
       }
     } else if ('enemy' == things[i].type)
     {
+      if (things[i].speedX+things[i].speedY != 0) playSound("bugwalk");
       if (orb.x == things[i].x) {
         var diff = orb.y - things[i].y;
         diff /= abs(diff);
