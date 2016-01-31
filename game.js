@@ -278,13 +278,11 @@ function beatstep(beat) {
       if (orb.x == things[i].x) {
         var diff = orb.y - things[i].y;
         diff /= abs(diff);
-        println(orb.y, things[i].y, orb.y - things[i].y, diff);
         things[i].speedX = 0;
         things[i].speedY = diff * tileSpeed;
       } else if (orb.y == things[i].y) {
         var diff = orb.x - things[i].x;
         diff /= abs(diff);
-        println(orb.x, things[i].x, orb.x - things[i].x, diff);
         things[i].speedX = diff * tileSpeed;
         things[i].speedY = 0;
       }
@@ -296,6 +294,16 @@ function beatstep(beat) {
       ) {
         things[i].speedX = 0;
         things[i].speedY = 0;
+      }
+      for (var j = 0; j < things.length; j++) {
+        if (i == j || 'fire' != things[j].type) continue;
+        if (things[i].x == things[j].x && things[i].y == things[j].y) {
+          burst(50, 'gray');
+          burst(20, 'red');
+          burst(50, 'limegreen');
+          burst(50, 'black');
+          things[i].delete = true;
+        }
       }
     }
   }
