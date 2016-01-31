@@ -249,6 +249,7 @@ function beatstep(beat) {
         if (orb.fire) {
           orb.fire = false;
           things[i].delete = true;
+          playSound("brick");
         } else {
           burst(20, 'yellow');
           die();

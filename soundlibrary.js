@@ -3,6 +3,7 @@ var bugkillSound;
 var bugwalkSound;
 var fireSound;
 var iceSound;
+var brickSound;
 var successSound;
 
 function loadAllSound()
@@ -15,6 +16,7 @@ function loadAllSound()
   bugwalkSound = loadSound('assets/audio/bugwalk.wav');
   fireSound = loadSound('assets/audio/fire.wav');
   iceSound = loadSound('assets/audio/ice.wav');
+  brickSound = loadSound('assets/audio/brickbreak.wav');
   successSound = loadSound('assets/audio/success.wav');
 }
 
@@ -29,6 +31,8 @@ function playSound(soundName)
   	fireSound.play();
   else if (soundName == "ice")
   	iceSound.play();
+  else if (soundName == "brick")
+    brickSound.play();
   else if (soundName == "success")
   	successSound.play();
 }
