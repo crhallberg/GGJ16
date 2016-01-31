@@ -289,6 +289,7 @@ function beatstep(beat) {
           burst(100, 'red', things[i].x + halfTile, things[i].y + halfTile);
           burst(50, 'white', things[i].x + halfTile, things[i].y + halfTile);
           burst(100, 'black', things[i].x + halfTile, things[i].y + halfTile);
+          playSound("brick");
           things[i].delete = true;
           things[j].delete = true;
         }
@@ -325,19 +326,20 @@ function beatstep(beat) {
           var px = things[i].x + halfTile;
           var py = things[i].y + halfTile;
           if ('fire' == things[j].type) {
+          	playSound("bugkill");
             burst(50, 'gray', px, py);
             burst(20, 'red', px, py);
             burst(50, 'lime', px, py);
             burst(50, 'black', px, py);
             things[i].delete = true;
           } else if ('ice_prop' == things[j].type) {
+          	playSound("bugkill");
             burst(50, 'gray', px, py);
             burst(50, 'white', px, py);
             burst(50, 'lightblue', px, py);
             things[i].delete = true;
           } else if ('void' == things[j].type) {
             playSound("bugkill");
-            stopSound("bugwalk");
             burst(50, 'gray', px, py);
             things[i].delete = true;
           }

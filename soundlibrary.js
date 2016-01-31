@@ -26,7 +26,10 @@ function playSound(soundName)
   if (soundName == "bugwalk" && !bugwalkSound.isPlaying())
     bugwalkSound.play();
   else if (soundName == "bugkill")
+  {
   	bugkillSound.play();
+  	stopSound("bugwalk");
+  }
   else if (soundName == "fire")
   	fireSound.play();
   else if (soundName == "ice")
