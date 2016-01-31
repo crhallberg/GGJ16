@@ -356,7 +356,7 @@ function mouseReleased() {
   }
   for (var i = 0; i < things.length; i++) {
     if (
-      ("void" == things[i].type && "ice" == things[i].type)
+      ("void" == things[i].type || ice" == things[i].type)
       && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
