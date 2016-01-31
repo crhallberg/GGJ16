@@ -6,7 +6,7 @@ var tileGap = 3;
 var halfTile = tileSize / 2;
 var tileSpeed = tileSize + tileGap;
 var tempo;
-var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy;
+var img_tile, img_fire, img_ice, img_exit, img_death, img_enemy, img_void;
 var imgs_orb = [];
 
 function baseObject(op, absolute) {
@@ -53,6 +53,7 @@ function preload() {
   img_fire = loadImage('./assets/art/FIRE.png');
   img_ice = loadImage('./assets/art/WATER.png');
   img_tile = loadImage('./assets/art/STONE.png');
+  img_void = loadImage('./assets/art/NOSPELL.png');
   imgs_orb.push(loadImage('./assets/art/BALL_BOTTOM.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_MED.png'));
   imgs_orb.push(loadImage('./assets/art/BALL_SPARK_1.png'));
@@ -124,8 +125,7 @@ function draw() {
     // REPLACE WITH IMAGE NAME
     switch (things[i].type) {
     case "void":
-      fill('navy');
-      rect(things[i].x, things[i].y, tileSize, tileSize);
+      image(img_void, things[i].x, things[i].y, tileSize, tileSize);
       break;
     case "fire":
       image(img_fire, things[i].x, things[i].y, tileSize, tileSize);
@@ -296,13 +296,18 @@ function beatstep(beat) {
         things[i].speedY = 0;
       }
       for (var j = 0; j < things.length; j++) {
-        if (i == j || 'fire' != things[j].type) continue;
+        if (i == j) continue;
         if (things[i].x == things[j].x && things[i].y == things[j].y) {
-          burst(50, 'gray');
-          burst(20, 'red');
-          burst(50, 'limegreen');
-          burst(50, 'black');
-          things[i].delete = true;
+          if ('fire' == things[j].type) {
+            burst(50, 'gray', things[i].x, things[i].y);
+            burst(20, 'red', things[i].x, things[i].y);
+            burst(50, 'lime', things[i].x, things[i].y);
+            burst(50, 'black', things[i].x, things[i].y);
+            things[i].delete = true;
+          } else if ('void' == things[j].type) {
+            burst(50, 'gray', things[i].x, things[i].y);
+            things[i].delete = true;
+          }
         }
       }
     }
