@@ -123,7 +123,7 @@ function draw() {
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
     switch (things[i].type) {
-    case "gem":
+    case "void":
       fill('navy');
       rect(things[i].x, things[i].y, tileSize, tileSize);
       break;
@@ -342,7 +342,7 @@ function mouseReleased() {
     return;
   }
   for (var i = 0; i < things.length; i++) {
-    if (things[i].type == "gem" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
+    if (things[i].type == "void" && mouseDownTileX == things[i].x && mouseDownTileY == things[i].y) {
       return;
     }
   }
