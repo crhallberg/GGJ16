@@ -1,26 +1,47 @@
-var drumchant;
+var drumchantSound;
+var bugkillSound;
+var bugwalkSound;
+var fireSound;
+var iceSound;
+var successSound;
 
 function loadAllSound()
 {
-  drumchant = loadSound('assets/audio/warfulllooped.wav');
-  drumchant.setVolume(0.0);
-  drumchant.addCue(0.01, onLoop, "drumchant");
+  drumchantSound = loadSound('assets/audio/warfulllooped.wav');
+  drumchantSound.setVolume(0.0);
+  drumchantSound.addCue(0.01, onLoop, "drumchant");
+  
+  bugkillSound = loadSound('assets/audio/bugsplat.wav');
+  bugwalkSound = loadSound('assets/audio/bugwalk.wav');
+  fireSound = loadSound('assets/audio/fire.wav');
+  iceSound = loadSound('assets/audio/ice.wav');
+  successSound = loadSound('assets/audio/success.wav');
 }
 
 
 function playSound(soundName)
 {
-/*  if (soundName === "mario")
-    if (!mario.isPlaying())
-      mario.play();
-    else 
-      mario.stop();*/
+  if (soundName == "bugwalk" && !bugwalkSound.isPlaying())
+    bugwalkSound.play();
+  else if (soundName == "bugkill")
+  	bugkillSound.play();
+  else if (soundName == "fire")
+  	fireSound.play();
+  else if (soundName == "ice")
+  	iceSound.play();
+  else if (soundName == "success")
+  	successSound.play();
 }
 
+function stopSound(soundname)
+{
+	if (soundName == "bugwalk" && bugwalkSound.isPlaying())
+		bugwalkSound.stop();
+}
 function loopBackgroundMusic(soundName)
 {
-  if (soundName === "drumchant" && !drumchant.isPlaying())
-    drumchant.loop();
+  if (soundName === "drumchant" && !drumchantSound.isPlaying())
+    drumchantSound.loop();
 }
 
 function onLoop(soundname)

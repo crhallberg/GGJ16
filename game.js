@@ -255,11 +255,13 @@ function beatstep(beat) {
           return;
         }
       } else if (!orb.fire && 'fire' == things[i].type) {
+        playSound("fire");
         burst(100, 'orange');
         burst(100, 'red');
         orb.fire = true;
         things[i].skip = true;
       } else if ('ice' == things[i].type) {
+        playSound("ice");
         burst(100, 'blue');
         burst(100, 'navy');
         var ib = baseObject({
@@ -327,6 +329,8 @@ function beatstep(beat) {
             burst(50, 'lightblue', px, py);
             things[i].delete = true;
           } else if ('void' == things[j].type) {
+          	playSound("bugkill");
+          	stopSound("bugwalk");
             burst(50, 'gray', px, py);
             things[i].delete = true;
           }
