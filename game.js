@@ -114,9 +114,10 @@ function draw() {
       image(img_tile, x * tileSpeed, y * tileSpeed, tileSize, tileSize);
     }
   }
-  // BEAT
+  /*/ BEAT
   fill('white');
   rect(tempo.getBeat() * tileSpeed, 0, tileSize, tileSize);
+  //*/
   // THINGS
   for (var i = 0; i < things.length; i++) {
     // REPLACE WITH IMAGE NAME
@@ -275,10 +276,11 @@ function beatstep(beat) {
   things = things.filter(function (op) {
     return !op.delete;
   });
-
+/*
   if (beat % 2 > 0) {
     return;
   }
+  //*/
   orb.move();
   // Move things
   for (var i = 0; i < things.length; i++) {
@@ -342,4 +344,10 @@ function spellDirection() {
 
 function insideRect(x, y, rx, ry, rw, rh) {
   return x > rx && x < rx + rw && y > ry && y < ry + rh;
+}
+
+function keyPressed() {
+  if (key == 'r' || key == 'R') {
+    setupLevel();
+  }
 }
